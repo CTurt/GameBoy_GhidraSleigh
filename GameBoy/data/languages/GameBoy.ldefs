@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language_definitions>
+   <language processor="GameBoy"
+            endian="little"
+            size="16"
+            variant="default"
+            version="1.0"
+            slafile="GameBoy.sla"
+            processorspec="GameBoy.pspec"
+            id="GameBoy:LE:16:default">
+    <description>GameBoy</description>
+    <compiler name="default" spec="GameBoy.cspec" id="default"/>
+  </language> 
+</language_definitions>
