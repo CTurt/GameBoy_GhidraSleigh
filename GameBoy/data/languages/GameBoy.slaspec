@@ -1847,11 +1847,12 @@ if (DECOMPILE_MODE) goto <forDecompilation>;
 }
 
 # Added
-:ADD  SP, Mem8         is op0_8=0xe8 & SP; Mem8 {
+:ADD  SP, simm8         is op0_8=0xe8 & SP; simm8 {
 	local SP_temp = SP;
+	local ex:2 = simm8;
 
-	SP = SP + sext(Mem8);
-	additionFlagsNoPV(SP_temp, sext(Mem8));
+	SP = SP + ex;
+	additionFlagsNoPV(SP_temp, ex);
 }
 
 # Added
@@ -1860,24 +1861,22 @@ if (DECOMPILE_MODE) goto <forDecompilation>;
 }
 
 # Added
-:LD   HL,SP+Mem8                  is op0_8=0xf8 & HL & SP; Mem8 {
-	HL = SP + sext(Mem8);
-	additionFlagsNoPV(SP, sext(Mem8));
+:LD   HL,SP+simm8                  is op0_8=0xf8 & HL & SP; simm8 {
+	local ex:2 = simm8;
+
+	HL = SP + ex;
+	additionFlagsNoPV(SP, ex);
 }
 
 # Changed
-:RETI               is op0_8=0xed; op0_8=0x4d; op0_8=0xd9 {
+:RETI               is op0_8=0xd9 {
 	pop16(PC);
 	ptr:$(PTRSIZE) = PC;
 	return [ptr];
 }
 
-:RETN               is op0_8=0xed; op0_8=0x45 {
-	# IFF1 = IFF2;
-	pop16(PC);
-	ptr:$(PTRSIZE) = PC;
-	return [ptr];
-}
+# Removed
+
 
 :RST RstAddr        is op6_2=0x3 & RstAddr & bits0_3=0x7 {
     push16(&:2 inst_next);
